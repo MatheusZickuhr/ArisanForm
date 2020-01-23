@@ -181,7 +181,7 @@ public class FormAdapter extends LinearLayout {
         switch (holder.data.getViewType()) {
             case Form.NUMBER: {
 //                Log.d("__TYPE","NUMBER");
-                holder.view.mEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                holder.view.mEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 if (holder.data.getValue() != null && holder.data.getValue().toString().equals("0.0")) {
                     holder.view.mEditText.setText("0");
                     holder.data.setValue(0);

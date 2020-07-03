@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
@@ -48,6 +49,7 @@ import com.github.arisan.helper.PreferenceHelper;
 import com.github.arisan.helper.SortForm;
 import com.github.arisan.helper.TextUtils;
 import com.github.arisan.helper.UriUtils;
+import com.github.arisan.model.ArisanCustomForm;
 import com.github.arisan.model.FormModel;
 import com.github.arisan.model.FormViewHolder;
 import com.github.arisan.model.RadioModel;
@@ -63,6 +65,8 @@ public class FormAdapter extends LinearLayout {
     private List<FormModel> fieldModels = new ArrayList<>();
     private List<FormViewHolder> holderList = new ArrayList<>();
 
+    private List<ArisanCustomForm> customForms = new ArrayList<>();
+
     private OnSubmitListener onSubmitListener;
     private PreferenceHelper preference;
     private String blank_message = "cannot blank!!!";
@@ -70,6 +74,11 @@ public class FormAdapter extends LinearLayout {
     private FormConfig config = new FormConfig();
     private String parent_field_name;
     private ArisanListener.ProgressListener progressListener;
+
+    //Check wheter buildForm is done
+    boolean is_build_done = false;
+    int builded_form = 0;
+    int spinner_check = 0;
 
     public static ViewGroup.LayoutParams LAYOUT_PARAMS = new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
     ViewGroup parent_view;
@@ -99,7 +108,10 @@ public class FormAdapter extends LinearLayout {
         for(FormModel data:fieldModels){
             int position = fieldModels.indexOf(data);
             //inflate
-            final View view = MyInflater.inflate(container_view,data.getViewType(),config.isChild,config);
+            final View view;
+
+            view = MyInflater.inflate(container_view,data,config);
+
             container_view.addView(view);
             //final Animation anim =
             //Save all data
@@ -109,6 +121,11 @@ public class FormAdapter extends LinearLayout {
             holderList.add(holder);
             //notify
             notifyData(holder);
+            builded_form++;
+        }
+        if(builded_form == fieldModels.size()){
+            Log.d(">>>Building","Done");
+            is_build_done = true;
         }
         Log.d("__PROCESS","INFLATE ALL SUCCESS");
     }
@@ -119,7 +136,7 @@ public class FormAdapter extends LinearLayout {
         return FieldAssembler.toFormJson(fieldModels);
     }
 
-    public void notifyData(FormViewHolder holder){
+    public void notifyData(@NonNull FormViewHolder holder){
         FormModel data = holder.getData();
         int position = holder.getPosition();
         if(position==0&&config.useTitle){
@@ -147,6 +164,7 @@ public class FormAdapter extends LinearLayout {
                 case Form.PASSWORD: ViewPassword(holder);break;
                 case Form.ONELINETEXT: ViewOneLineText(holder);break;
                 case Form.FLOWTEXT: ViewEditText2(holder);break;
+                case Form.CUSTOM: holder.data.getCustomForm().onCreated(holder,this);break; //TODO: onCreted here
                 default: ViewEditText(holder);break;
             }
         }
@@ -505,9 +523,9 @@ public class FormAdapter extends LinearLayout {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 holder.data.setValue(options.get(pos));
-                try{
+                if(++spinner_check > 1){
                     holder.data.doListener(options.get(pos),FormAdapter.this);
-                }catch (Exception ignored){}
+                }
             }
 
             @Override
@@ -1075,5 +1093,11 @@ public class FormAdapter extends LinearLayout {
     public FormViewHolder findViewHolderByName(String name){
         FormViewHolder holder = new KotlinFilter().filterViewHolder(name,holderList);
         return holder;
+    }
+
+    //==============CUSTOM VIEW=============
+
+    public void addCustomForm(ArisanCustomForm custom_form){
+        customForms.add(custom_form);
     }
 }

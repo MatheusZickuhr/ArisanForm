@@ -1,7 +1,7 @@
 package com.github.arisan;
 
 import android.content.Context;
-//import android.support.annotation.Nullable;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -15,18 +15,15 @@ import com.github.arisan.helper.ImagePickerUtils;
 import com.github.arisan.helper.KotlinFilter;
 import com.github.arisan.helper.ObjectReader;
 import com.github.arisan.helper.PreferenceHelper;
-import com.github.arisan.model.ArisanCustomForm;
 import com.github.arisan.model.FormModel;
 import com.github.arisan.model.FormViewHolder;
 import com.github.arisan.model.ListenerModel;
-
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ArisanForm extends LinearLayout {
+public class ArisanForm extends ScrollView {
     private List<FormModel> fieldModels = new ArrayList<>();
     private FormConfig config = new FormConfig();
     private FormAdapter.OnSubmitListener onSubmitListener;
@@ -212,11 +209,5 @@ public class ArisanForm extends LinearLayout {
 
     public void updateConfig(FormConfig config){
         formAdapter.setConfig(config);
-    }
-
-    //Custom View
-    public boolean registerCustomForm(ArisanCustomForm custom_form){
-
-        return true;
     }
 }

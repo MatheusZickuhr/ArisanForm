@@ -8,15 +8,14 @@ import android.view.ViewGroup;
 import com.github.arisan.FormConfig;
 import com.github.arisan.R;
 import com.github.arisan.annotation.Form;
-import com.github.arisan.model.FormModel;
 
 public class MyInflater {
-    public static View inflate(ViewGroup parent, FormModel model, FormConfig config){
+    public static View inflate(ViewGroup parent, int viewType, boolean isChild, FormConfig config){
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View v;
-        switch (model.getViewType()){
+        switch (viewType){
             case Form.BUTTON:
-                    if (config.isChild)
+                    if (isChild)
                         v = inflater.inflate(R.layout.item_delete, parent, false);
                     else
                         v = inflater.inflate(com.github.arisan.R.layout.item_button, parent, false);
@@ -38,10 +37,9 @@ public class MyInflater {
             case Form.ONELINETEXT:v = inflater.inflate(R.layout.item_onelinetext, parent, false);break;
             case Form.FLOWTEXT:v = inflater.inflate(R.layout.item_flow_text, parent, false);break;
             case Form.TITLE:v = inflater.inflate(R.layout.item_text, parent, false);break;
-            case Form.CUSTOM:v = inflater.inflate(model.getCustomForm().getLayout(),parent,false);break;
             default:v = inflater.inflate(R.layout.item_edittext, parent, false);break;
         }
-//        Log.d("_PROCESS","INFLATE "+model.getViewType());
+        Log.d("_PROCESS","INFLATE "+viewType);
         return v;
     }
 }

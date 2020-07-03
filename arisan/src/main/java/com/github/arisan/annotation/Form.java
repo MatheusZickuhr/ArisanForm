@@ -1,7 +1,5 @@
 package com.github.arisan.annotation;
 
-import com.github.arisan.model.ArisanCustomForm;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -22,7 +20,6 @@ public @interface Form {
     int background() default 0;
     int color() default 0;
     Class relation() default String.class;
-    Class custom_class() default ArisanCustomForm.class;
     String hint() default "...";
 
     int TEXT = 181;
@@ -48,5 +45,4 @@ public @interface Form {
     int FLOWTEXT = 201;
     int BUTTON = 202;
     int TITLE = 203;
-    int CUSTOM = 204;
 }

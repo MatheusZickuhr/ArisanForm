@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.github.arisan.R;
 
 public class MyView {
-    private View view;
+    View view;
 
     public TextView mTitle,mBlankText;
     //BUTTON
@@ -132,13 +132,5 @@ public class MyView {
         vManyAdd = v.findViewById(R.id.arisan_many_add);
         vManyContainer = v.findViewById(R.id.arisan_many_list);
         vManyLabel = v.findViewById(R.id.arisan_many_label);
-    }
-
-    public View getView() {
-        return view;
-    }
-
-    public void setView(View view) {
-        this.view = view;
     }
 }

@@ -36,12 +36,9 @@ public class FormModel {
     private ArisanListener.CheckboxCondition checkboxListener;
     private ArisanListener.ViewMod viewMod;
 
-    //Custom View
-    private ArisanCustomForm customForm;
-
     Bitmap thumbnail;
 
-    public ArisanListener.OnCondition getCondition() {
+    public ArisanListener.OnCondition getArisanListener() {
         return arisanListener;
     }
 
@@ -254,20 +251,5 @@ public class FormModel {
         new_model.setError(error);
 
         return new_model;
-    }
-
-    public ArisanCustomForm getCustomForm() {
-        return customForm;
-    }
-
-    public void setCustomForm(Class form_class) {
-        try {
-            this.customForm = (ArisanCustomForm) form_class.newInstance();
-            this.customForm.getLayout();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
     }
 }

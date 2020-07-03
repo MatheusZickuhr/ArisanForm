@@ -1,6 +1,7 @@
 package com.github.arisan.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import com.github.arisan.R;
 
 /**
  * Created by wijaya on 3/27/2018.
@@ -599,9 +600,9 @@ public class ArisanAdapter {
 
     private void ViewSpinner(ViewHolder holder, final ArisanFieldModel data) {
         holder.view.mSpinnerLabel.setText(data.getLabel());
-        //ArrayAdapter mAdapter = new ArrayAdapter(activity,android.R.layout.simple_spinner_item,(List)data.getData());
+        //ArrayAdapter mAdapter = new ArrayAdapter(activity,R.layout.simple_spinner_item,(List)data.getData());
         final List<String> dataArray = FieldUtils.convertArrayToList(data.getData());
-        ArrayAdapter<String> mAdapter = new ArrayAdapter<>(activity,android.R.layout.simple_spinner_dropdown_item,dataArray);
+        ArrayAdapter<String> mAdapter = new ArrayAdapter<>(activity,R.layout.simple_spinner_dropdown_item,dataArray);
         holder.view.mSpinner.setAdapter(mAdapter);
         holder.view.mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
